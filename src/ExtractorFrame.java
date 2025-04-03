@@ -56,46 +56,46 @@ public class ExtractorFrame extends JFrame {
     private JPanel createCenterPanel() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
-        fileNameLabel = new JLabel("File Name: No File Selected");
+//        fileNameLabel = new JLabel("File Name: No File Selected", SwingConstants.CENTER);
 
         textArea = new JTextArea();
         textArea.setEditable(false);
         scrollPane = new JScrollPane(textArea);
 
-        centerFilterBtnPanel = new JPanel();
-        centerFilterBtnPanel.setLayout(new GridLayout(2, 1));
-        addFilterButton = new JButton("Add Filter");
-        addFilterButton.addActionListener(e -> {System.out.println("Add Filter");});
-        removeFilterButton = new JButton("Remove Filter");
-        removeFilterButton.addActionListener(e -> {System.out.println("Remove Filter");});
-        centerFilterBtnPanel.add(addFilterButton);
-        centerFilterBtnPanel.add(removeFilterButton);
+//        centerFilterBtnPanel = new JPanel();
+//        centerFilterBtnPanel.setLayout(new GridLayout(2, 1));
+//        addFilterButton = new JButton("Add Filter");
+//        addFilterButton.addActionListener(e -> {System.out.println("Add Filter");});
+//        removeFilterButton = new JButton("Remove Filter");
+//        removeFilterButton.addActionListener(e -> {System.out.println("Remove Filter");});
+//        centerFilterBtnPanel.add(addFilterButton);
+//        centerFilterBtnPanel.add(removeFilterButton);
+//
+//        centerFileBtnPanel = new JPanel();
+//        centerFileBtnPanel.setLayout(new GridLayout(2, 1));
+//        addInputFileButton = new JButton("Add Input File");
+//        addInputFileButton.addActionListener(e -> {System.out.println("Add Input File");});
+//        removeInputFileButton = new JButton("Remove Input File");
+//        removeInputFileButton.addActionListener(e -> {System.out.println("Remove Input File");});
+//        centerFileBtnPanel.add(addInputFileButton);
+//        centerFileBtnPanel.add(removeInputFileButton);
+//
+//        centerSouthPanel = new JPanel();
+//        centerSouthPanel.setLayout(new GridLayout(1, 2));
+//        centerSouthPanel.add(centerFilterBtnPanel);
+//        centerSouthPanel.add(centerFileBtnPanel);
 
-        centerFileBtnPanel = new JPanel();
-        centerFileBtnPanel.setLayout(new GridLayout(2, 1));
-        addInputFileButton = new JButton("Add Input File");
-        addInputFileButton.addActionListener(e -> {System.out.println("Add Input File");});
-        removeInputFileButton = new JButton("Remove Input File");
-        removeInputFileButton.addActionListener(e -> {System.out.println("Remove Input File");});
-        centerFileBtnPanel.add(addInputFileButton);
-        centerFileBtnPanel.add(removeInputFileButton);
 
-        centerSouthPanel = new JPanel();
-        centerSouthPanel.setLayout(new GridLayout(1, 2));
-        centerSouthPanel.add(centerFilterBtnPanel);
-        centerSouthPanel.add(centerFileBtnPanel);
-
-
-        centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
+//        centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
-        centerPanel.add(fileNameLabel, BorderLayout.NORTH);
+//        centerPanel.add(fileNameLabel, BorderLayout.NORTH);
         return centerPanel;
     }
 
     private JPanel createSouthPanel() {
         southPanel = new JPanel();
 
-         goButton = new JButton("Test");
+         goButton = new JButton("Start");
          quitButton = new JButton("Quit");
 
         // Add lambda-based action listeners
