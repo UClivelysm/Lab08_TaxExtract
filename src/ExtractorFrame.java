@@ -8,6 +8,8 @@ public class ExtractorFrame extends JFrame {
     JPanel centerPanel;
     JPanel southPanel;
 
+    JPanel centerNorthPanel;
+
     JPanel southButtonsPanel;
     JPanel southInputPanel;
 
@@ -16,7 +18,8 @@ public class ExtractorFrame extends JFrame {
     JPanel centerFileBtnPanel;
 
     JLabel placeholderLabel;
-    JLabel fileNameLabel;
+    JLabel inputFileNameLabel;
+    JLabel filterFileNameLabel;
     JLabel minCountLabel;
 
     JButton goButton;
@@ -26,6 +29,7 @@ public class ExtractorFrame extends JFrame {
     JButton removeFilterButton;
     JButton addInputFileButton;
     JButton removeInputFileButton;
+    JButton addOutputFileButton;
 
     JTextArea textArea;
     JScrollPane scrollPane;
@@ -63,10 +67,14 @@ public class ExtractorFrame extends JFrame {
     private JPanel createCenterPanel() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
-        fileNameLabel = new JLabel("Input File: No File Selected", SwingConstants.CENTER);
+        inputFileNameLabel = new JLabel("Input File: No File Selected", SwingConstants.CENTER);
+        filterFileNameLabel = new JLabel("Filter File: No File Selected", SwingConstants.CENTER);
+
+        centerNorthPanel = new JPanel(new GridLayout(2, 1));
 
         textArea = new JTextArea();
         textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
         scrollPane = new JScrollPane(textArea);
 
         centerFilterBtnPanel = new JPanel();
@@ -77,6 +85,7 @@ public class ExtractorFrame extends JFrame {
             filterFile = FilePicker.GetFile();
             if (filterFile != null) {
                 System.out.println("Filter File: " + filterFile.getAbsolutePath());
+                filterFileNameLabel.setText("Filter File: " + filterFile.getAbsolutePath());
             } else {
                 System.out.println("Filter File: No File Selected");
             }
@@ -85,6 +94,7 @@ public class ExtractorFrame extends JFrame {
         removeFilterButton.addActionListener(e -> {
             System.out.println("Remove Filter");
             filterFile = null;
+            filterFileNameLabel.setText("Filter File: No File Selected");
         });
         centerFilterBtnPanel.add(addFilterButton);
         centerFilterBtnPanel.add(removeFilterButton);
@@ -97,7 +107,7 @@ public class ExtractorFrame extends JFrame {
             inputFile = FilePicker.GetFile();
             if (inputFile != null) {
                 System.out.println("Input File: " + inputFile.getAbsolutePath());
-                fileNameLabel.setText("File Name: " + inputFile.getAbsolutePath());
+                inputFileNameLabel.setText("Input File: " + inputFile.getAbsolutePath());
             } else {
                 System.out.println("Input File: No File Selected");
             }
@@ -106,7 +116,7 @@ public class ExtractorFrame extends JFrame {
         removeInputFileButton.addActionListener(e -> {
             System.out.println("Remove Input File");
             inputFile = null;
-            fileNameLabel.setText("File Name: No File Selected");
+            inputFileNameLabel.setText("Input File: No File Selected");
         });
         centerFileBtnPanel.add(addInputFileButton);
         centerFileBtnPanel.add(removeInputFileButton);
@@ -116,9 +126,12 @@ public class ExtractorFrame extends JFrame {
         centerSouthPanel.add(centerFileBtnPanel);
         centerSouthPanel.add(centerFilterBtnPanel);
 
+        centerNorthPanel.add(inputFileNameLabel);
+        centerNorthPanel.add(filterFileNameLabel);
+
         centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
-        centerPanel.add(fileNameLabel, BorderLayout.NORTH);
+        centerPanel.add(centerNorthPanel, BorderLayout.NORTH);
         return centerPanel;
     }
 
@@ -127,10 +140,12 @@ public class ExtractorFrame extends JFrame {
 
         goButton = new JButton("Start");
         quitButton = new JButton("Quit");
+        addOutputFileButton = new JButton("Output to File");
         minCountLabel = new JLabel("Enter the minimum word count:");
         minFrequencyTF = new JTextField(4);
+        minFrequencyTF.setText("3");
 
-        southButtonsPanel = new JPanel(new GridLayout(1, 2));
+        southButtonsPanel = new JPanel(new GridLayout(1, 3));
         southInputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         // Add lambda-based action listeners
@@ -167,6 +182,16 @@ public class ExtractorFrame extends JFrame {
                 }
                 returnedString = FilePicker.GenerateFilteredMap(inputFile, filterFile,minCount);
                 textArea.setText(returnedString);
+            } else {
+                JOptionPane.showMessageDialog(null, "You must have a input file and optionally a filter file", "No Input File Selected", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        addOutputFileButton.addActionListener(e -> {
+            if (returnedString != null && !returnedString.trim().isEmpty()) {
+                FilePicker.FileWriter(returnedString);
+            } else {
+                JOptionPane.showMessageDialog(null, "There is nothing to write", "Nothing to Write", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -176,6 +201,7 @@ public class ExtractorFrame extends JFrame {
         southInputPanel.add(minCountLabel);
         southInputPanel.add(minFrequencyTF);
         southButtonsPanel.add(goButton);
+        southButtonsPanel.add(addOutputFileButton);
         southButtonsPanel.add(quitButton);
 
         southPanel.add(southInputPanel);

@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -52,7 +49,7 @@ public class FilePicker {
             String line;
             while ((line = reader.readLine()) != null) {
                 // Split on non-word characters.
-                String[] words = line.split("\\W+");
+                String[] words = line.split("[^A-Za-z]+");
                 for (String word : words) {
                     // Only process words with at least 3 characters.
                     if (word.length() < 3) continue;
@@ -99,7 +96,7 @@ public class FilePicker {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.split("\\W+");
+                String[] words = line.split("[^A-Za-z]+");
                 for (String word : words) {
                     // Only process words with at least 3 characters.
                     if (word.length() < 3) continue;
@@ -137,6 +134,27 @@ public class FilePicker {
         }
 
         return formattedOutput.toString();
+    }
+
+    public static void FileWriter(String input) {
+        // Get the current working directory and create a File object for OutputFile.txt
+        String workingDir = System.getProperty("user.dir");
+        File outputFile = new File(workingDir, "OutputFile.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+            writer.write(input);
+            // Pop-up message showing the file was written along with its full path.
+            JOptionPane.showMessageDialog(null,
+                    "File was written successfully to:\n" + outputFile.getAbsolutePath(),
+                    "File Written",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error writing to file: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
